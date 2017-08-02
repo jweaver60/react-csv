@@ -130,7 +130,8 @@ var CSVLink = (_temp = _class = function (_React$Component) {
     }
   }, {
     key: 'downloadForMS',
-    value: function downloadForMS(data, headers, separator, filename) {
+    value: function downloadForMS(event, data, headers, separator, filename) {
+      event.preventDefault();
       var csv = decodeURIComponent(encodeURI((0, _core.toCSV)(data, headers, separator)));
       var blobObject = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       window.navigator.msSaveOrOpenBlob(blobObject, filename);
@@ -138,6 +139,8 @@ var CSVLink = (_temp = _class = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           data = _props.data,
           headers = _props.headers,
@@ -149,7 +152,9 @@ var CSVLink = (_temp = _class = function (_React$Component) {
       if (window.Blob && window.navigator.msSaveOrOpenBlob) {
         return _react2.default.createElement(
           'a',
-          _extends({ onClick: this.downloadForMS(data, headers, separator, filename)
+          _extends({ onClick: function onClick(e) {
+              return _this2.downloadForMS(e, data, headers, separator, filename);
+            }
           }, rest, {
             href: '#' }),
           children

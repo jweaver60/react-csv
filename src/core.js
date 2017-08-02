@@ -1,3 +1,5 @@
+export const isFunction = ((dataOrFn) => (typeof dataOrFn === 'function'));
+
 export const isJsons = ((array) => Array.isArray(array) && array.every(
  row => (typeof row === 'object' && !(row instanceof Array))
 ));
@@ -33,7 +35,8 @@ export const string2csv = ((data, headers, separator) =>
   (headers) ? `${headers.join(separator)}\n${data}`: data
 );
 
-export const toCSV = (data, headers, separator) => {
+export const toCSV = (dataOrFn, headers, separator) => {
+ const data = isFunction(dataOrFn) ? dataOrFn() : dataOrFn;
  if (isJsons(data)) return jsons2csv(data, headers, separator);
  if (isArrays(data)) return arrays2csv(data, headers, separator);
  if (typeof data ==='string') return string2csv(data, headers, separator);
